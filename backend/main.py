@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
-from schemas import Chamado, ChamadoStatus, ChamadoResposta
-from services import (
+from backend.schemas import Chamado, ChamadoStatus, ChamadoResposta
+from fastapi.middleware.cors import CORSMiddleware
+from backend.services import (
     obter_chamados, 
     criar_chamado, 
     consultar_chamado, 
@@ -9,6 +10,15 @@ from services import (
 )
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/chamados", response_model=list[ChamadoResposta])
 def listar_chamados_api():
     return obter_chamados()
@@ -64,5 +74,31 @@ def deletar_chamado_api(id_chamado: int):
             status_code=404,
             detail="Chamado não encontrado."
         )
-    
 
+@app.get("/chamados/estatisticas")
+def obter_estatisticas():
+    chamados = obter_chamados()
+
+    total_chamados = len(chamados)
+
+    total_abertos = sum(
+        1 for chamado in chamados
+        if chamado["status"] == "Aberto"
+    )
+
+    total_em_andamento = sum(
+        1 for chamado in chamados
+        if chamado["status"] == "Em andamento"
+    )
+
+    total_concluidos = sum(
+        1 for chamado in chamados
+        if chamado["status"] == "Concluído"
+    )
+
+    return {
+        "total_chamados": total_chamados,
+        "total_abertos": total_abertos,
+        "total_em_andamento": total_em_andamento,
+        "total_concluidos": total_concluidos
+    }

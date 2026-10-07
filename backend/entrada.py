@@ -1,4 +1,4 @@
-from chamados import abrir_chamado, listar_chamados, consultar_chamado, alterar_status
+from backend.chamados import abrir_chamado, listar_chamados, consultar_chamado, alterar_status
 def menu():
     while True:
         print("===== CONTROLE DE CHAMADOS =====")

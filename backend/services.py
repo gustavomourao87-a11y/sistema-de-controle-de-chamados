@@ -1,4 +1,4 @@
-from banco import (
+from backend.banco import (
     listar_chamados,
     inserir_chamado,
     deletar_chamado,

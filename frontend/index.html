@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ControlDesk | Sistema de Chamados</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon">C</div>
+
+            <div>
+                <h1>ControlDesk</h1>
+                <span>Sistema de Controle de Chamados</span>
+            </div>
+        </div>
+
+        <div class="api-status">
+            <span class="status-dot"></span>
+            API Online
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <section class="hero">
+            <div>
+                <span class="eyebrow">GESTÃO DE ATENDIMENTO</span>
+
+                <h2>
+                    Controle seus chamados
+                    <span>de forma simples.</span>
+                </h2>
+
+                <p>
+                    Gerencie solicitações, acompanhe status e mantenha
+                    seus atendimentos organizados em um único lugar.
+                </p>
+            </div>
+
+            <div class="hero-decoration">
+                <div class="hero-circle"></div>
+                <div class="hero-line"></div>
+            </div>
+        </section>
+
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">◉</div>
+
+                <div>
+                    <span>Total de chamados</span>
+                    <strong id="totalChamados">—</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon yellow">◷</div>
+
+                <div>
+                    <span>Em andamento</span>
+                    <strong id="chamadosAndamento">—</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">✓</div>
+
+                <div>
+                    <span>Concluídos</span>
+                    <strong id="chamadosConcluidos">—</strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <div class="grid-layout">
+
+            <!-- CRIAR CHAMADO -->
+
+            <section class="card">
+
+                <div class="card-header">
+                    <div>
+                        <span class="card-label">NOVO ATENDIMENTO</span>
+                        <h3>Criar chamado</h3>
+                    </div>
+
+                    <div class="card-icon">＋</div>
+                </div>
+
+                <form id="criarChamadoForm">
+
+                    <div class="input-group">
+                        <label for="nome">Nome</label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Digite o nome"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="descricao">Descrição</label>
+
+                        <textarea
+                            id="descricao"
+                            name="descricao"
+                            placeholder="Descreva o problema ou solicitação"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="categoria">Categoria</label>
+
+                        <select id="categoria" name="categoria" required>
+                            <option value="Suporte">Suporte</option>
+                            <option value="Desenvolvimento">
+                                Desenvolvimento
+                            </option>
+                            <option value="Administração">
+                                Administração
+                            </option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="primary-button">
+                        Criar chamado
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+                <div id="resultadoCriacao"></div>
+
+            </section>
+
+
+            <!-- CONSULTAR CHAMADO -->
+
+            <section class="card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="card-label">CONSULTA</span>
+                        <h3>Consultar chamado</h3>
+                    </div>
+
+                    <div class="card-icon">⌕</div>
+
+                </div>
+
+                <form id="consultarChamadoForm">
+
+                    <div class="input-group">
+
+                        <label for="id_chamado">
+                            ID do chamado
+                        </label>
+
+                        <input
+                            type="number"
+                            id="id_chamado"
+                            name="id_chamado"
+                            placeholder="Ex: 12"
+                            required
+                        >
+
+                    </div>
+
+                    <button type="submit" class="secondary-button">
+                        Consultar chamado
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+                <div id="resultadoConsulta"></div>
+
+            </section>
+
+
+            <!-- ATUALIZAR STATUS -->
+
+            <section class="card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="card-label">GERENCIAMENTO</span>
+                        <h3>Atualizar status</h3>
+                    </div>
+
+                    <div class="card-icon">↻</div>
+
+                </div>
+
+                <form id="atualizarStatusForm">
+
+                    <div class="input-group">
+
+                        <label for="id_chamado_status">
+                            ID do chamado
+                        </label>
+
+                        <input
+                            type="number"
+                            id="id_chamado_status"
+                            name="id_chamado_status"
+                            placeholder="Ex: 12"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label for="novo_status">
+                            Novo status
+                        </label>
+
+                        <select
+                            id="novo_status"
+                            name="novo_status"
+                            required
+                        >
+                            <option value="Aberto">
+                                Aberto
+                            </option>
+
+                            <option value="Em andamento">
+                                Em andamento
+                            </option>
+
+                            <option value="Concluído">
+                                Concluído
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <button type="submit" class="secondary-button">
+                        Atualizar status
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+                <div id="resultadoAtualizacao"></div>
+
+            </section>
+
+
+            <!-- DELETAR -->
+
+            <section class="card danger-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="card-label danger-label">
+                            AÇÃO PERMANENTE
+                        </span>
+
+                        <h3>Excluir chamado</h3>
+                    </div>
+
+                    <div class="card-icon danger-icon">
+                        ×
+                    </div>
+
+                </div>
+
+                <form id="deletarChamadoForm">
+
+                    <div class="input-group">
+
+                        <label for="id_chamado_deletar">
+                            ID do chamado
+                        </label>
+
+                        <input
+                            type="number"
+                            id="id_chamado_deletar"
+                            name="id_chamado_deletar"
+                            placeholder="Ex: 12"
+                            required
+                        >
+
+                    </div>
+
+                    <button type="submit" class="danger-button">
+                        Excluir chamado
+                        <span>×</span>
+                    </button>
+
+                </form>
+
+                <div id="resultadoDelecao"></div>
+
+            </section>
+
+        </div>
+
+
+        <!-- LISTAGEM -->
+
+        <section class="card chamados-card">
+
+            <div class="card-header list-header">
+
+                <div>
+                    <span class="card-label">
+                        VISÃO GERAL
+                    </span>
+
+                    <h3>Chamados registrados</h3>
+
+                    <p>
+                        Acompanhe todos os chamados cadastrados no sistema.
+                    </p>
+                </div>
+
+                <button
+                    id="listarChamadosBtn"
+                    class="primary-button list-button"
+                >
+                    Atualizar lista
+                    <span>↻</span>
+                </button>
+
+            </div>
+
+            <div id="resultadoListagem" class="chamados-lista">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ◉
+                    </div>
+
+                    <h4>Nenhum chamado carregado</h4>
+
+                    <p>
+                        Clique em "Atualizar lista" para consultar
+                        os chamados cadastrados.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <div>
+            <strong>ControlDesk</strong>
+            <span>Projeto de portfólio</span>
+        </div>
+
+        <span>
+            Python · FastAPI · SQLite · JavaScript
+        </span>
+
+    </footer>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
+
