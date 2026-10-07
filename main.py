@@ -13,11 +13,11 @@ app = FastAPI()
 def listar_chamados_api():
     return obter_chamados()
     
-@app.post("/chamados")
+@app.post("/chamados", status_code=201, response_model=ChamadoResposta)
 def criar_chamado_api(chamado: Chamado):
     return criar_chamado(chamado)
     
-@app.get("/chamados/{id_chamado}")
+@app.get("/chamados/{id_chamado}", response_model=ChamadoResposta)
 def consultar_chamado_api(id_chamado: int):
    chamado = consultar_chamado(id_chamado)
    if chamado is None:
@@ -27,7 +27,7 @@ def consultar_chamado_api(id_chamado: int):
         )
    return chamado
 
-@app.put("/chamados/{id_chamado}/status")
+@app.put("/chamados/{id_chamado}/status",response_model=ChamadoResposta)
 def alterar_status_api(id_chamado: int, status: ChamadoStatus):
 
     chamado = alterar_status(id_chamado, status.status)
@@ -40,7 +40,7 @@ def alterar_status_api(id_chamado: int, status: ChamadoStatus):
 
     return chamado
 
-@app.delete("/chamados/{id_chamado}")
+@app.delete("/chamados/{id_chamado}", status_code=204)
 def deletar_chamado_api(id_chamado: int):
 
     resultado = deletar_chamado_service(id_chamado)
@@ -51,4 +51,3 @@ def deletar_chamado_api(id_chamado: int):
             detail="Chamado não encontrado."
         )
 
-    return {"message": "Chamado deletado com sucesso."}
