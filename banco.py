@@ -67,10 +67,19 @@ def buscar_chamado_por_id(id_chamado):
 
 def alterar_status(id_chamado, novo_status):
     conexao = conectar_banco()
-    cursor = conexao.cursor()
-    cursor.execute('UPDATE chamados SET status = ? WHERE id = ?', (novo_status, id_chamado))
-    conexao.commit()
-    conexao.close()
+
+    try:
+        cursor = conexao.cursor()
+        cursor.execute('UPDATE chamados SET status = ? WHERE id = ?', (novo_status, id_chamado))
+        if cursor.rowcount == 0:
+            return False
+        
+        conexao.commit()
+        return True
+    except Exception as e:
+        raise Exception(f"Erro ao alterar status do chamado: {e}")
+    finally:
+        conexao.close()
 
 def deletar_chamado(id_chamado):
     conexao = conectar_banco()

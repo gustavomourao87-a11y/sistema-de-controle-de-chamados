@@ -53,14 +53,14 @@ def deletar_chamado_service(id_chamado):
     return True
 
 def alterar_status(id_chamado, novo_status):
-    chamado = buscar_chamado_por_id(id_chamado)
-    if chamado is None:
+    resultado = alterar_status_banco(id_chamado, novo_status)
+    if resultado is False:
         return None
-    alterar_status_banco(id_chamado, novo_status)
+    chamado_atualizado = buscar_chamado_por_id(id_chamado)
     return {
-        "id": chamado[0],
-        "nome": chamado[1],
-        "descricao": chamado[2],
-        "categoria": chamado[3],
-        "status": novo_status
+        "id": chamado_atualizado[0],
+        "nome": chamado_atualizado[1],
+        "descricao": chamado_atualizado[2],
+        "categoria": chamado_atualizado[3],
+        "status": chamado_atualizado[4]
     }
