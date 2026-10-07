@@ -46,14 +46,12 @@ def consultar_chamado(id_chamado):
 
 def deletar_chamado_service(id_chamado):
 
-    chamado = buscar_chamado_por_id(id_chamado)
-
-    if chamado is None:
+    resultado = deletar_chamado(id_chamado)
+    if resultado is False:
         return None
-
-    deletar_chamado(id_chamado)
-
+    
     return True
+
 def alterar_status(id_chamado, novo_status):
     chamado = buscar_chamado_por_id(id_chamado)
     if chamado is None:
